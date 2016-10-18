@@ -30,6 +30,19 @@ r$(".container").undo();
 
 Calling undoAll() will return each selected node to it's original state.
 
+```javascript
+r$(".container").addClass("class1");
+r$(".container").addClass("class2");
+r$(".container").addClass("class3");
+// r$(".container").attr('class') --> "class1 class2 class3"
+r$(".container").undoAll();
+// r$(".container").attr('class') --> ""
+```
+
+redo() will reverse any undo() calls
+
+Similarly redoAll will reverse all undo() calls
+
 
 
 ### Event Listeners
