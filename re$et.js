@@ -157,20 +157,23 @@
 	}
 
 
-
-
-
 	class Re$et {
 	  constructor(nodes){
 	    this.nodes = nodes;
 	  }
 
-	  html(string){
+	  html(html, track){
 	    if(string === undefined){
 	      return this.nodes[0].innerHTML;
 	    } else {
+	      if (track !== false){
+	        r$memory.set(this.nodes, "html", {
+	          oldHtml: this.nodes[0].innerHTML,
+	          newHtml: html
+	        });
+	      }
 	      for (let i = 0; i < this.nodes.length; i++) {
-	        this.nodes[i].innerHTML = string;
+	        this.nodes[i].innerHTML = html;
 	      }
 	    }
 	  }
@@ -196,10 +199,15 @@
 	    }
 	  }
 
-	  set(attribute, value){
-	    for (let i = 0; i < this.nodes.length; i++) {
-	      this.nodes[i].setAttribute(attribute, value);
+	  attr(attribute, value){
+	    if (value){
+	      for (let i = 0; i < this.nodes.length; i++) {
+	        this.nodes[i].setAttribute(attribute, value);
+	      }
+	    } else {
+	      return this.nodes[0].getAttribute(attribute);
 	    }
+
 	  }
 
 	  addClass(className, track){
@@ -306,6 +314,9 @@
 	        case "removeClass":
 	          r$(node).addClass(last.parameters.className, false);
 	          break;
+
+	        case "html":
+	          r$(node).html()
 
 	        default:
 	          break;
