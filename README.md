@@ -8,9 +8,17 @@ users to undo/redo.
 
 ### DOM Traversals
 
-#### #parent
+#### parent()
+Selects the currently selected nodes' immediate parents.
 
-#### #children
+#### children()
+Selects the currently selected nodes' immediate children.
+
+#### allChildren()
+Selects the currently selected nodes' nested children.
+
+#### find(selector)
+Selects the currently selected nodes' nested children matching the selector.
 
 ### Irreversible DOM Operations
 

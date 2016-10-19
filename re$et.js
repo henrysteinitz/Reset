@@ -262,7 +262,15 @@
 	  }
 
 	  children(){
-	    let result = [];
+			let result = [];
+			this.nodes.forEach((node) => {
+				result = result.concat(node.children);
+			});
+			return new Re$et(result);
+	  }
+
+		allChildren(){
+			let result = [];
 	    const allChildren = (node) => {
 	      node.childNodes.forEach((child) =>{
 	        if (child.nodeType === 1){
@@ -275,7 +283,7 @@
 	      allChildren(child);
 	    });
 	    return new Re$et(result);
-	  }
+		}
 
 	  parent(){
 	    const result = [];
