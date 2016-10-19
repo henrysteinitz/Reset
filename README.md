@@ -35,15 +35,15 @@ Removes the selected nodes from the DOM.
 
 ### Reversible DOM Operations
 
-#### #addClass
+#### #addClass(className, [track])
 Adds the passed class name to the selected elements list of classes
 
-#### #removeClass
+#### #removeClass(className, [track])
 Removes the passed class name from the selected elements list of classes.
 
-#### #html
+#### #html([html], [track])
 
-#### #attr
+#### #attr(attribute, value, [track])
 
 ### Reversions
 The Re$et library attaches an object r$memory to the window. This object contains
