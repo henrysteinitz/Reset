@@ -34,6 +34,8 @@ Removes the selected nodes from the DOM.
 
 
 ### Reversible DOM Operations
+Passing a final argument of "false" to any of the following methods will prevent 
+the the operation from being saved to memory for reversion.
 
 #### #addClass(className, [track])
 Adds the passed class name to the selected elements list of classes
