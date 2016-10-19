@@ -22,27 +22,37 @@ Selects the currently selected nodes' nested children matching the selector.
 
 ### Irreversible DOM Operations
 
-#### #outer(html)
+#### #outer([html])
+Calling this method without an argument will return the outer html of the first
+selected node. Passing in a string will replace each nodes' outer html with the
+passed string.
 
 #### #remove
+Removes the selected nodes from the DOM.
 
 #### #append
+
 
 ### Reversible DOM Operations
 
 #### #addClass
+Adds the passed class name to the selected elements list of classes
 
 #### #removeClass
+Removes the passed class name from the selected elements list of classes.
 
 #### #html
 
 #### #attr
 
-### Undo / Redo
+### Reversions
 The Re$et library attaches an object r$memory to the window. This object contains
 a hash that maps each DOM element to a list of all operations performed on
-that element. Calling undo() on a Re$et object will undo the most recent
-operation for all selected nodes.
+that element.
+
+#### undo()
+Calling undo() on a Re$et object will undo the most recent operation for
+all selected nodes.
 
 ```html
 <div class="container">
@@ -56,7 +66,8 @@ r$(".container").undo();
 // r$(".container").attr('class') --> ""
 ```
 
-Calling undoAll() will return each selected node to it's original state.
+#### undoAll()
+Calling undoAll() will undo all reversible operations.
 
 ```javascript
 r$(".container").addClass("class1");
@@ -66,11 +77,11 @@ r$(".container").addClass("class3");
 r$(".container").undoAll();
 // r$(".container").attr('class') --> ""
 ```
+#### redo()
+Calling redo() will reverse one undo() call.
 
-redo() will reverse any undo() calls
-
+#### redoAll()
 Similarly redoAll() will reverse all undo() calls
-
 
 
 ### Event Listeners
