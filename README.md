@@ -6,9 +6,29 @@ Re$et is a lightweight DOM-manipulation library that extends traditional
 libraries (like jQuery) by keeping track of all DOM changes and allowing
 users to undo/redo.
 
-### DOM Traversal
+### DOM Traversals
 
-### DOM Operation
+#### #parent
+
+#### #children
+
+### Irreversible DOM Operations
+
+#### #outer(html)
+
+#### #remove
+
+#### #append
+
+### Reversible DOM Operations
+
+#### #addClass
+
+#### #removeClass
+
+#### #html
+
+#### #attr
 
 ### Undo / Redo
 The Re$et library attaches an object r$memory to the window. This object contains
@@ -41,7 +61,7 @@ r$(".container").undoAll();
 
 redo() will reverse any undo() calls
 
-Similarly redoAll will reverse all undo() calls
+Similarly redoAll() will reverse all undo() calls
 
 
 

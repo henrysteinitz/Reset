@@ -50,7 +50,7 @@
 
 	window.r$ = function(selector){
 	  if (typeof selector === 'string') {
-	    return new Re$et(Array.from(document.querySelectorAll(selector)));
+	    return new Re$et(Array.from(document.querySelectorAll(selector)), selector);
 	  }
 	  else if (selector instanceof HTMLElement) {
 	    return new Re$et([selector]);
@@ -107,8 +107,17 @@
 
 	class Re$etMemory {
 	  constructor(){
-	    this.past = {}
-	    this.future = {}
+	    this.clear();
+	  }
+
+	  clear(node){
+	    if (node) {
+	      this.past[node] = [];
+	      this.future[node] = [];
+	    } else {
+	      this.past = {};
+	      this.future = {};
+	    }
 	  }
 
 	  set(nodes, action, parameters){
@@ -158,15 +167,16 @@
 
 
 	class Re$et {
-	  constructor(nodes){
+	  constructor(nodes, selector){
 	    this.nodes = nodes;
+	    this.selector = selector;
 	  }
 
-	  html(html, track){
-	    if(string === undefined){
+	  html(html, track) {
+	    if(html === undefined) {
 	      return this.nodes[0].innerHTML;
 	    } else {
-	      if (track !== false){
+	      if (track !== false) {
 	        r$memory.set(this.nodes, "html", {
 	          oldHtml: this.nodes[0].innerHTML,
 	          newHtml: html
@@ -178,10 +188,19 @@
 	    }
 	  }
 
-	  empty(){
-	    for (let i = 0; i < this.nodes.length; i++) {
-	      this.nodes[i].outerHTML = "";
+	  outer(html) {
+	    debugger
+	    if (html === undefined) {
+	      return this.nodes[0].outerHTML;
+	    } else {
+	      for (let i = 0; i < this.nodes.length; i++) {
+	        this.nodes[i].outerHTML = html;
+	      }
 	    }
+	  }
+
+	  empty(){
+	    this.outer("");
 	  }
 
 	  append(elements){
@@ -199,9 +218,16 @@
 	    }
 	  }
 
-	  attr(attribute, value){
+	  attr(attribute, value, track){
 	    if (value){
 	      for (let i = 0; i < this.nodes.length; i++) {
+	        if (track !== false){
+	          r$memory.set([this.nodes[i]], 'attr', {
+	            attribute: attribute,
+	            oldValue: this.nodes[i].getAttribute(attribute),
+	            newValue: value
+	          });
+	        }
 	        this.nodes[i].setAttribute(attribute, value);
 	      }
 	    } else {
@@ -248,7 +274,7 @@
 	    this.nodes.forEach((child) => {
 	      allChildren(child);
 	    });
-	    return new DOMNodeCollection(result);
+	    return new Re$et(result);
 	  }
 
 	  parent(){
@@ -257,16 +283,16 @@
 	      result.push(this.nodes[i].parentNode);
 	    }
 
-	    return new DOMNodeCollection(result);
+	    return new Re$et(result);
 	  }
 
-	  find(query){
+	  find(selector){
 	    let result = [];
 	    for (let i = 0; i < this.nodes.length; i++) {
-	      result = result.concat(Array.from(this.nodes[i].querySelectorAll(query)));
+	      result = result.concat(Array.from(this.nodes[i].querySelectorAll(selector)));
 	    }
 
-	    return new DOMNodeCollection(result);
+	    return new Re$et(result);
 	  }
 
 	  remove(){
@@ -316,13 +342,23 @@
 	          break;
 
 	        case "html":
-	          r$(node).html()
+	          r$(node).html(last.parameters.oldHtml, false);
+	          break;
+
+	        case "attr":
+	          let oldValue=" ";
+	          if (last.parameters.oldValue){
+	            oldValue = last.parameters.oldValue;
+	          }
+	          r$(node).attr(last.parameters.attribute, oldValue, false);
+	          break;
 
 	        default:
 	          break;
 	      }
 	    })
-	    r$memory.unset(this.nodes)
+	    r$memory.unset(this.nodes);
+	    return this;
 	  }
 
 	  redo(){
@@ -338,11 +374,24 @@
 	          r$(node).removeClass(last.parameters.className, false);
 	          break;
 
+	        case "html":
+	          r$(node).html(last.parameters.newHtml, false);
+	          break;
+
+	        case "attr":
+	          let newValue=" ";
+	          if (last.parameters.newValue){
+	            newValue = last.parameters.newValue;
+	          }
+	          r$(node).attr(last.parameters.attribute, newValue, false);
+	          break;
+
 	        default:
 	          break;
 	      }
 	    });
 	    r$memory.reset(this.nodes)
+	    return this;
 	  }
 
 	  undoAll(){
@@ -351,6 +400,7 @@
 	        r$(node).undo();
 	      }
 	    });
+	    return this;
 	  }
 
 	  redoAll(){
@@ -359,6 +409,7 @@
 	        r$(node).redo();
 	      }
 	    });
+	    return this;
 	  }
 
 	}

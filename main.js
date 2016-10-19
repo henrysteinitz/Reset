@@ -4,7 +4,7 @@ const Re$etMemory = R$.Re$etMemory;
 
 window.r$ = function(selector){
   if (typeof selector === 'string') {
-    return new Re$et(Array.from(document.querySelectorAll(selector)));
+    return new Re$et(Array.from(document.querySelectorAll(selector)), selector);
   }
   else if (selector instanceof HTMLElement) {
     return new Re$et([selector]);
