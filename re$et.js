@@ -204,12 +204,12 @@
 	  }
 
 	  append(elements){
-	    let dom = r$(elements);
+	    let $elements = r$(elements);
 	    const moreHTML = [];
 	    for (let i = 0; i < this.nodes.length; i++) {
 	      moreHTML.push("");
-	      for (let j = 0; j < dom.nodes.length; j++) {
-	        moreHTML[i] = moreHTML[i].concat(dom.nodes[j].outerHTML);
+	      for (let j = 0; j < $elements.nodes.length; j++) {
+	        moreHTML[i] = moreHTML[i].concat($elements.nodes[j].outerHTML);
 	      }
 	    }
 

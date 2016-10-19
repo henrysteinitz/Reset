@@ -8,19 +8,20 @@ users to undo/redo.
 
 ### DOM Traversals
 
-#### parent()
+#### #parent
 Selects the currently selected nodes' immediate parents.
 
-#### children()
+#### #children
 Selects the currently selected nodes' immediate children.
 
-#### allChildren()
+#### #allChildren
 Selects the currently selected nodes' nested children.
 
-#### find(selector)
+#### #find(selector)
 Selects the currently selected nodes' nested children matching the selector.
 
 ### Irreversible DOM Operations
+These methods cannot be undone / redone.
 
 #### #outer([html])
 Calling this method without an argument will return the outer html of the first
@@ -31,10 +32,10 @@ passed string.
 Removes the selected nodes from the DOM.
 
 #### #append
-
+Appends dom elements to the end of the selected elements' innerHTML.
 
 ### Reversible DOM Operations
-Passing a final argument of "false" to any of the following methods will prevent 
+Passing a final argument of "false" to any of the following methods will prevent
 the the operation from being saved to memory for reversion.
 
 #### #addClass(className, [track])
@@ -44,6 +45,8 @@ Adds the passed class name to the selected elements list of classes
 Removes the passed class name from the selected elements list of classes.
 
 #### #html([html], [track])
+Returns first elements' innerHTML if no arguments are given. Sets the innerHTML
+of the selected elements to the first argument otherwise.
 
 #### #attr(attribute, value, [track])
 
